@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 import "../styles/LoginPage.css";
 import sideImage from "../assets/form-image.png";
 
@@ -10,6 +12,7 @@ export default function LoginPage() {
   });
 
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -20,11 +23,24 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage(""); // clear any previous message
+
     try {
       const res = await axios.post("http://127.0.0.1:5000/login", formData);
-      setMessage(res.data.message);
+
+      if (res.data.message === "Login successful") {
+        // Save user to localStorage
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+
+        // Redirect to dashboard
+        navigate("/dashboard");
+      } else {
+        setMessage("Unexpected error.");
+      }
     } catch (err) {
-      setMessage("Error logging in");
+      setMessage(
+        err.response?.data?.message || "Error logging in. Please try again."
+      );
       console.error(err);
     }
   };
@@ -48,6 +64,7 @@ export default function LoginPage() {
               placeholder="Email"
               value={formData.email}
               onChange={handleChange}
+              required
             />
             <input
               type="password"
@@ -55,6 +72,7 @@ export default function LoginPage() {
               placeholder="Password"
               value={formData.password_hash}
               onChange={handleChange}
+              required
             />
             <button type="submit">Login</button>
           </form>

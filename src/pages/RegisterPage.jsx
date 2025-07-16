@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/RegisterPage.css";
 import sideImage from "../assets/form-image.png";
@@ -8,10 +8,18 @@ export default function RegisterPage() {
     full_name: "",
     email: "",
     password_hash: "",
-    role: "student",
+    grade_id: "", // 👈 grade_id now here
   });
 
   const [message, setMessage] = useState("");
+  const [grades, setGrades] = useState([]); // optional: fetch grades dynamically
+
+  // optionally load grades from backend
+  useEffect(() => {
+    axios.get("http://127.0.0.1:5000/grades")
+      .then(res => setGrades(res.data))
+      .catch(err => console.error("Error fetching grades", err));
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -23,7 +31,10 @@ export default function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://127.0.0.1:5000/register", formData);
+      const res = await axios.post("http://127.0.0.1:5000/register", {
+        ...formData,
+        grade_id: parseInt(formData.grade_id), // ensure integer
+      });
       setMessage(res.data.message);
     } catch (err) {
       setMessage("Error registering user");
@@ -32,7 +43,6 @@ export default function RegisterPage() {
   };
 
   const handleGoogleSignIn = () => {
-    // TODO: Replace with your Google OAuth flow
     alert("Google Sign-In not implemented yet.");
   };
 
@@ -66,10 +76,23 @@ export default function RegisterPage() {
               value={formData.password_hash}
               onChange={handleChange}
             />
-            <select name="role" value={formData.role} onChange={handleChange}>
-              <option value="student">Student</option>
-              <option value="admin">Admin</option>
+            <select
+              name="grade_id"
+              value={formData.grade_id}
+              onChange={handleChange}
+            >
+              <option value="">Select Grade</option>
+              {grades.length > 0
+                ? grades.map((grade) => (
+                    <option key={grade.id} value={grade.id}>
+                      {grade.name}
+                    </option>
+                  ))
+                : [1,2,3,4,5,6,7].map(g => (
+                    <option key={g} value={g}>Grade {g}</option>
+                  ))}
             </select>
+
             <button type="submit">Register</button>
           </form>
 
