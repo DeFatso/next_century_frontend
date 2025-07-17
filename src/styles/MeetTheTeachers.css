@@ -1,0 +1,70 @@
+.meet-teachers {
+  padding: 4rem 2rem;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.meet-teachers h2 {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.meet-teachers .subtitle {
+  font-size: 18px;
+  max-width: 700px;
+  margin: 0 auto 3rem auto;
+  color: #555;
+}
+
+.teacher-cards {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.teacher-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.05);
+  max-width: 280px;
+  flex: 1 1 240px;
+  text-align: center;
+}
+
+.teacher-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.teacher-card h3 {
+  font-size: 20px;
+  margin-bottom: 0.25rem;
+}
+
+.qualification {
+  font-size: 14px;
+  font-weight: bold;
+  color: #00E5FF;
+  margin-bottom: 0.75rem;
+}
+
+.bio {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .meet-teachers h2 {
+    font-size: 36px;
+  }
+  .teacher-card {
+    max-width: 100%;
+  }
+}

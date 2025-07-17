@@ -1,0 +1,116 @@
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  min-height: 100vh;
+  background-color: white;
+  color: black;
+}
+
+.hero h1 {
+  font-size: 96px;
+  font-weight: bold;
+  line-height: 1.1;
+  max-width: 1400px;
+}
+
+.hero h1 span {
+  color: #00E5FF;
+}
+
+.hero p {
+  margin-top: 1rem;
+  font-size: 20px;
+  max-width: 800px;
+}
+
+.hero-buttons {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #000;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #333;
+}
+
+.btn-secondary {
+  background-color: #00E5FF;
+  color: #000;
+}
+
+.btn-secondary:hover {
+  background-color: #00bcd4;
+}
+
+/* RESPONSIVENESS */
+@media (max-width: 1200px) {
+  .hero h1 {
+    font-size: 72px;
+  }
+}
+
+@media (max-width: 992px) {
+  .hero h1 {
+    font-size: 56px;
+  }
+
+  .hero p {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 40px;
+  }
+
+  .hero p {
+    font-size: 16px;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 32px;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
