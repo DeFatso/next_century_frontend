@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import "../styles/NavBar.css";
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <header className="navbar">
@@ -14,7 +16,9 @@ const NavBar = () => {
           <a href="/grades">Grades</a>
           <a href="/how-it-works">How It Works</a>
           <a href="/contact">Contact</a>
-          <button className="enroll-btn">Enroll Now</button>
+          <button className="enroll-btn" onClick={() => navigate("/apply")}>
+            Enroll Now
+          </button>
         </nav>
         <div
           className="hamburger"
