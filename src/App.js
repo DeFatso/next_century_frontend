@@ -4,6 +4,8 @@ import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import LandingPage from "./pages/LandingPage";
 import ApplicationForm from "./components/ApplicationForm";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminLogin from "./pages/AdminLogin";
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/apply" element={<ApplicationForm />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="*" element={<h2>Page Not Found</h2>} />
       </Routes>
     </div>
