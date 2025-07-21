@@ -8,7 +8,7 @@ import sideImage from "../assets/form-image.png";
 export default function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
-    password_hash: "",
+    password: "", // changed from password_hash to password
   });
 
   const [message, setMessage] = useState("");
@@ -26,7 +26,10 @@ export default function LoginPage() {
     setMessage(""); // clear any previous message
 
     try {
-      const res = await axios.post("http://127.0.0.1:5000/login", formData);
+      const res = await axios.post("http://127.0.0.1:5000/auth/login", {
+        email: formData.email,
+        password_hash: formData.password, // your backend still expects password_hash
+      });
 
       if (res.data.message === "Login successful") {
         // Save user to localStorage
@@ -68,9 +71,9 @@ export default function LoginPage() {
             />
             <input
               type="password"
-              name="password_hash"
+              name="password"
               placeholder="Password"
-              value={formData.password_hash}
+              value={formData.password}
               onChange={handleChange}
               required
             />
