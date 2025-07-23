@@ -23,28 +23,49 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage(""); // clear any previous message
+    setMessage("");
 
     try {
-      const res = await axios.post("http://127.0.0.1:5000/auth/login", {
-        email: formData.email,
-        password_hash: formData.password, // your backend still expects password_hash
-      });
+      const res = await axios.post(
+        "http://127.0.0.1:5000/auth/login",
+        {
+          email: formData.email,
+          password_hash: formData.password, // or generate hash on frontend if needed
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (res.data.message === "Login successful") {
-        // Save user to localStorage
         localStorage.setItem("user", JSON.stringify(res.data.user));
-
-        // Redirect to dashboard
         navigate("/dashboard");
-      } else {
-        setMessage("Unexpected error.");
       }
     } catch (err) {
-      setMessage(
-        err.response?.data?.message || "Error logging in. Please try again."
-      );
-      console.error(err);
+      if (err.response) {
+        switch (err.response.status) {
+          case 400:
+            setMessage("Email and password are required");
+            break;
+          case 401:
+            setMessage("Invalid email or password");
+            break;
+          case 404:
+            setMessage("User not found");
+            break;
+          case 500:
+            setMessage("Server error. Please try again later.");
+            break;
+          default:
+            setMessage("Login failed. Please try again.");
+        }
+      } else if (err.request) {
+        setMessage("No response from server. Check your connection.");
+      } else {
+        setMessage("Login error: " + err.message);
+      }
     }
   };
 
