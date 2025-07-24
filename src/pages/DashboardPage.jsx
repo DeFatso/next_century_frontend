@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DashboardHeader from "../components/DashboardHeader";
 import ProfileCard from "../components/ProfileCard";
+import ScheduleSection from "../components/ScheduleSection";
+import ResourcesSection from "../components/ResourcesSection";
+import CalendarSection from "../components/CalendarSection";
+import PerformanceSummary from "../components/PerformanceSummary";
 import "../styles/DashboardPage.css";
 
 export default function DashboardPage() {
@@ -128,133 +132,24 @@ export default function DashboardPage() {
           <ProfileCard user={user} />
 
           {/* Schedule Section */}
-          <section className="schedule-section">
-            <h3 className="section-title">Schedule</h3>
-            <div className="schedule-card">
-              <div className="schedule-item">
-                <h4>Attendance</h4>
-                <div className="attendance-metrics">
-                  <div className="metric">
-                    <span className="metric-value">94%</span>
-                    <span className="metric-label">This Month</span>
-                  </div>
-                  <div className="metric">
-                    <span className="metric-value">89%</span>
-                    <span className="metric-label">Last Month</span>
-                  </div>
-                </div>
-              </div>
-              <div className="schedule-item">
-                <h4>Announcements</h4>
-                <p className="announcement">
-                  Parent-teacher meetings scheduled for next week
-                </p>
-                <p className="announcement">
-                  School closed on Friday for staff training
-                </p>
-              </div>
-              <div className="schedule-item">
-                <h4>Participation Metrics</h4>
-                <div className="participation-chart">
-                  <div className="participation-bar" style={{ width: "78%" }}>
-                    <span>78% Class Participation</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
+          <ScheduleSection />
         </div>
 
         {/* Right Column - Performance Data */}
         <div className="right-column">
           {/* Resources Section */}
-          <section className="resources-section">
-            <h3 className="section-title">Resources</h3>
-            <div className="resources-card">
-              <h4>Average Test Scores by Month</h4>
-              <div className="score-grid">
-                <div className="score-category">
-                  <span className="score-label">Last Year</span>
-                  <span className="score-value">82%</span>
-                </div>
-                <div className="score-category">
-                  <span className="score-label">Late Submissions</span>
-                  <span className="score-value">18%</span>
-                </div>
-                <div className="score-category">
-                  <span className="score-label">On Time Submissions</span>
-                  <span className="score-value">82%</span>
-                </div>
-              </div>
-            </div>
-          </section>
-
+          <ResourcesSection />
           {/* Calendar Section */}
-          <section className="calendar-section">
-            <div className="calendar-header">
-              <div className="calendar-nav">
-                <button onClick={prevMonth} className="nav-btn">
-                  &lt;
-                </button>
-                <h3>
-                  {monthNames[currentDate.getMonth()]}{" "}
-                  {currentDate.getFullYear()}
-                </h3>
-                <button onClick={nextMonth} className="nav-btn">
-                  &gt;
-                </button>
-              </div>
-              <button onClick={goToToday} className="today-btn">
-                Today
-              </button>
-            </div>
-            <div className="calendar-grid">
-              {weekdayNames.map((day) => (
-                <div key={day} className="calendar-weekday">
-                  {day}
-                </div>
-              ))}
-              {calendarDays.map((dayObj, index) => (
-                <div
-                  key={`day-${index}`}
-                  className={`calendar-day 
-                    ${dayObj.isCurrentMonth ? "" : "other-month"} 
-                    ${dayObj.isToday ? "today" : ""}`}
-                >
-                  {dayObj.day}
-                  {dayObj.isToday && <div className="today-indicator"></div>}
-                </div>
-              ))}
-            </div>
-            <div className="reminder-actions">
-              <button className="reminder-btn">Set Daily Reminder</button>
-              <p className="reminder-note">
-                Reminder after you reached daily limit
-              </p>
-            </div>
-          </section>
+          <CalendarSection
+            currentDate={currentDate}
+            prevMonth={prevMonth}
+            nextMonth={nextMonth}
+            goToToday={goToToday}
+            calendarDays={calendarDays}
+          />
 
           {/* Performance Summary */}
-          <section className="performance-summary">
-            <div className="performance-card">
-              <div className="performance-header">
-                <h3>69% + Average Daily Score</h3>
-                <div className="mini-calendar">
-                  <div className="mini-weekdays">
-                    {weekdayNames.map((day) => (
-                      <span key={`mini-${day}`}>{day}</span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div className="reminder-actions">
-                <button className="reminder-btn">Set Daily Reminder</button>
-                <p className="reminder-note">
-                  Reminder after you reached daily limit
-                </p>
-              </div>
-            </div>
-          </section>
+          <PerformanceSummary />
         </div>
       </div>
     </div>
