@@ -10,18 +10,43 @@ import "../styles/DashboardPage.css";
 
 export default function DashboardPage() {
   const [user, setUser] = useState(null);
+  const [dashboardData, setDashboardData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [currentDate, setCurrentDate] = useState(new Date());
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    setUser(storedUser);
-  }, []);
+    const fetchDashboardData = async () => {
+      try {
+        const storedUser = JSON.parse(localStorage.getItem("user"));
+        if (!storedUser) {
+          navigate("/login");
+          return;
+        }
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    navigate("/login");
-  };
+        setUser(storedUser);
+
+        // Fetch dashboard data from backend
+        const response = await fetch(
+          `http://localhost:5000/auth/dashboard?user_id=${storedUser.id}`
+        );
+        
+        if (!response.ok) {
+          throw new Error("Failed to fetch dashboard data");
+        }
+
+        const data = await response.json();
+        setDashboardData(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, [navigate]);
 
   // Calendar navigation functions
   const prevMonth = () => {
@@ -93,6 +118,24 @@ export default function DashboardPage() {
     return calendarDays;
   };
 
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <h2>Loading dashboard...</h2>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <h2>Error loading dashboard</h2>
+        <p>{error}</p>
+        <button onClick={() => window.location.reload()}>Try Again</button>
+      </div>
+    );
+  }
+
   if (!user) {
     return (
       <div className="login-prompt">
@@ -101,22 +144,6 @@ export default function DashboardPage() {
       </div>
     );
   }
-
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  const weekdayNames = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 
   const calendarDays = generateCalendarDays();
 
@@ -129,16 +156,20 @@ export default function DashboardPage() {
         {/* Left Column - User Profile and Schedule */}
         <div className="left-column">
           {/* User Profile Card */}
-          <ProfileCard user={user} />
+          <ProfileCard user={dashboardData?.user || user} />
 
-          {/* Schedule Section */}
-          <ScheduleSection />
+          {/* Schedule Section - Updated to show real assignments */}
+          <ScheduleSection 
+            upcomingAssignments={dashboardData?.upcoming_assignments || []}
+            recentActivity={dashboardData?.recent_activity || []}
+          />
         </div>
 
         {/* Right Column - Performance Data */}
         <div className="right-column">
           {/* Resources Section */}
           <ResourcesSection />
+          
           {/* Calendar Section */}
           <CalendarSection
             currentDate={currentDate}
@@ -149,7 +180,9 @@ export default function DashboardPage() {
           />
 
           {/* Performance Summary */}
-          <PerformanceSummary />
+          <PerformanceSummary 
+            performanceData={dashboardData}
+          />
         </div>
       </div>
     </div>

@@ -1,44 +1,41 @@
 import React from "react";
 import "../styles/DashboardPage.css";
 
-export default function ScheduleSection() {
+export default function ScheduleSection({ upcomingAssignments, recentActivity }) {
   return (
     <section className="schedule-section">
-      <h3 className="section-title">Schedule</h3>
-      <div className="schedule-card">
-        <div className="schedule-item">
-          <h4>Attendance</h4>
-          <div className="attendance-metrics">
-            <div className="metric">
-              <span className="metric-value">94%</span>
-              <span className="metric-label">This Month</span>
+      <h3 className="section-title">Upcoming Assignments</h3>
+      
+      {upcomingAssignments.length === 0 ? (
+        <p>No upcoming assignments</p>
+      ) : (
+        <div className="assignments-list">
+          {upcomingAssignments.map((assignment) => (
+            <div key={assignment.id} className="assignment-item">
+              <h4>{assignment.title}</h4>
+              <p>Due: {assignment.due_date}</p>
+              <p>Subject: {assignment.subject}</p>
+              <p>Days left: {assignment.days_until_due}</p>
             </div>
-            <div className="metric">
-              <span className="metric-value">89%</span>
-              <span className="metric-label">Last Month</span>
-            </div>
-          </div>
+          ))}
         </div>
+      )}
 
-        <div className="schedule-item">
-          <h4>Announcements</h4>
-          <p className="announcement">
-            Parent-teacher meetings scheduled for next week
-          </p>
-          <p className="announcement">
-            School closed on Friday for staff training
-          </p>
-        </div>
-
-        <div className="schedule-item">
-          <h4>Participation Metrics</h4>
-          <div className="participation-chart">
-            <div className="participation-bar" style={{ width: "78%" }}>
-              <span>78% Class Participation</span>
+      <h3 className="section-title">Recent Activity</h3>
+      
+      {recentActivity.length === 0 ? (
+        <p>No recent activity</p>
+      ) : (
+        <div className="activity-list">
+          {recentActivity.map((activity) => (
+            <div key={activity.assignment_id} className="activity-item">
+              <h4>{activity.title}</h4>
+              <p>Submitted: {activity.submitted_at}</p>
+              <p>Grade: {activity.grade || "Not graded yet"}</p>
             </div>
-          </div>
+          ))}
         </div>
-      </div>
+      )}
     </section>
   );
 }

@@ -4,7 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import LandingPage from "./pages/LandingPage";
 import ApplicationForm from "./components/ApplicationForm";
-import AdminDashboard from "./pages/AdminDashboard";
+import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import AdminLogin from "./pages/AdminLogin";
 import Signup from "./pages/Signup";
 

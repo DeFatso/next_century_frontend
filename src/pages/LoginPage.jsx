@@ -30,7 +30,7 @@ export default function LoginPage() {
         "http://127.0.0.1:5000/auth/login",
         {
           email: formData.email,
-          password_hash: formData.password, // or generate hash on frontend if needed
+          password: formData.password, // or generate hash on frontend if needed
         },
         {
           headers: {
