@@ -30,7 +30,7 @@ const ApplicationForm = () => {
     try {
       const response = await fetch(`${API_BASE}/applications/apply`, {
         method: "POST",
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -108,18 +108,16 @@ const ApplicationForm = () => {
             required
           >
             <option value="">Select Grade</option>
-            <option value="Pre-K">Pre-K</option>
-            <option value="Kindergarten">Kindergarten</option>
-            <option value="1st Grade">1st Grade</option>
-            <option value="2nd Grade">2nd Grade</option>
-            <option value="3rd Grade">3rd Grade</option>
-            <option value="4th Grade">4th Grade</option>
-            <option value="5th Grade">5th Grade</option>
-            <option value="6th Grade">6th Grade</option>
-            <option value="7th Grade">7th Grade</option>
-            <option value="8th Grade">8th Grade</option>
+            <option value="Grade 1">Grade 1</option>
+            <option value="Grade 2">Grade 2</option>
+            <option value="Grade 3">Grade 3</option>
+            <option value="Grade 4">Grade 4</option>
+            <option value="Grade 5">Grade 5</option>
+            <option value="Grade 6">Grade 6</option>
+            <option value="Grade 7">Grade 7</option>
           </select>
         </div>
+
 
         <button type="submit" className="submit-button">
           Submit Application
