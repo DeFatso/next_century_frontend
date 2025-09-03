@@ -5,7 +5,7 @@ const AdminTabs = ({ activeTab, onTabChange }) => {
     { id: "applications", label: "Applications" },
     { id: "users", label: "Users" },
     { id: "content", label: "Content" },
-    { id: "lessons", label: "Lessons" } 
+    { id: "lessons", label: "Lessons" }
   ];
 
   return (

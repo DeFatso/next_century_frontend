@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminHeader from "./components/AdminHeader";
 import StatsOverview from "./components/StatsOverview";
@@ -6,7 +6,7 @@ import AdminTabs from "./components/AdminTabs";
 import ApplicationsTable from "./components/ApplicationsTable";
 import UsersTable from "./components/UsersTable";
 import ContentManagement from "./components/ContentManagement";
-import LessonsManagement from "../../components/LessonsManagement";
+import GradeLessonsManagement from "../../components/GradeLessonsManagement";
 import "../../styles/AdminDashboard.css";
 
 const AdminDashboard = () => {
@@ -19,20 +19,14 @@ const AdminDashboard = () => {
   const API_BASE = "http://localhost:5000";
   const ADMIN_CREDENTIALS = btoa("admin:supersecret");
 
-  useEffect(() => {
-    const isAdmin = localStorage.getItem("isAdmin");
-    if (!isAdmin) navigate("/admin-login");
-    else fetchApplications();
-  }, [navigate]);
-
-  const getAuthHeaders = () => {
+  const getAuthHeaders = useCallback(() => {
     return {
       Authorization: `Basic ${ADMIN_CREDENTIALS}`,
       "Content-Type": "application/json",
     };
-  };
+  }, [ADMIN_CREDENTIALS]);
 
-  const fetchApplications = async () => {
+  const fetchApplications = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -49,7 +43,13 @@ const AdminDashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [API_BASE, getAuthHeaders]);
+
+  useEffect(() => {
+    const isAdmin = localStorage.getItem("isAdmin");
+    if (!isAdmin) navigate("/admin-login");
+    else fetchApplications();
+  }, [navigate, fetchApplications]);
 
   const handleApplicationAction = async (id, action) => {
     try {
@@ -66,7 +66,8 @@ const AdminDashboard = () => {
     }
   };
 
-  // Add these functions to your AdminDashboard component
+  // Comment out or remove these unused functions since they're not used in the component
+  /*
   const fetchAdminStats = async () => {
     try {
       const res = await fetch(`${API_BASE}/admin/stats`, {
@@ -107,6 +108,7 @@ const AdminDashboard = () => {
       throw new Error(err.message);
     }
   };
+  */
 
   const handleLogout = () => {
     localStorage.removeItem("isAdmin");
@@ -133,7 +135,7 @@ const AdminDashboard = () => {
 
       {activeTab === "users" && <UsersTable />}
       {activeTab === "content" && <ContentManagement />}
-      {activeTab === "lessons" && <LessonsManagement />}
+      {activeTab === "lessons" && <GradeLessonsManagement />}
     </div>
   );
 };
