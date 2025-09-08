@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "../styles/DashboardPage.css";
 
-export default function ResourcesSection() {
+export default function ResourcesSection({ gradeId }) {
   const [resources, setResources] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/resources")
+    if (!gradeId) return;
+
+    fetch(`http://localhost:5000/resources?grade_id=${gradeId}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch resources");
         return res.json();
@@ -20,7 +22,7 @@ export default function ResourcesSection() {
         setError(err.message);
         setLoading(false);
       });
-  }, []);
+  }, [gradeId]);
 
   if (loading) return <p>Loading resources...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -30,7 +32,7 @@ export default function ResourcesSection() {
       <h3 className="section-title">Resources</h3>
 
       {resources.length === 0 ? (
-        <p>No resources available.</p>
+        <p>No resources available for your grade.</p>
       ) : (
         <div className="resources-list">
           {resources.map(({ id, title, description, file_url }) => (

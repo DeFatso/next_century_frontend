@@ -168,8 +168,8 @@ export default function DashboardPage() {
         {/* Right Column - Performance Data */}
         <div className="right-column">
           {/* Resources Section */}
-          <ResourcesSection />
-          
+          <ResourcesSection gradeId={dashboardData?.user?.grade_id || user.grade_id} />
+
           {/* Calendar Section */}
           <CalendarSection
             currentDate={currentDate}
