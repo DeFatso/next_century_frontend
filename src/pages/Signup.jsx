@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
+import "../styles/Signup.css"; // we'll create this
 
 const Signup = () => {
   const [searchParams] = useSearchParams();
@@ -36,8 +37,9 @@ const Signup = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Signup failed");
 
-      setSuccess("Password set successfully! You can now log in.");
+      setSuccess("Password set successfully! Redirecting to login...");
       setError(null);
+
       setTimeout(() => navigate("/login"), 3000);
     } catch (err) {
       setError(err.message);
@@ -48,32 +50,43 @@ const Signup = () => {
   return (
     <div className="signup-page">
       <NavBar />
-      <h1>Complete Your Signup</h1>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {success && <p style={{ color: "green" }}>{success}</p>}
-      {!success && (
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Password:</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>Confirm Password:</label>
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            />
-          </div>
-          <button type="submit">Set Password</button>
-        </form>
-      )}
+
+      <div className="signup-container">
+        <h1>Complete Your Signup</h1>
+
+        {error && <p className="error-msg">{error}</p>}
+        {success && <p className="success-msg">{success}</p>}
+
+        {!success && (
+          <form className="signup-form" onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter new password"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Confirm Password</label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm your password"
+                required
+              />
+            </div>
+
+            <button type="submit" className="submit-btn">
+              Set Password
+            </button>
+          </form>
+        )}
+      </div>
     </div>
   );
 };

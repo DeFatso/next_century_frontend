@@ -41,7 +41,7 @@
   color: #00E5FF;
 }
 
-.enroll-btn {
+.enroll-btn, .login-btn {
   background-color: #00E5FF;
   color: #000;
   font-weight: bold;
