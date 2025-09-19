@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import "../styles/DashboardPage.css";
 
 export default function ResourcesSection({ gradeId }) {
+  console.log("ResourcesSection received gradeId:", gradeId);
+
   const [resources, setResources] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!gradeId) return;
+    console.log("Fetching resources for gradeId:", gradeId);
 
     fetch(`http://localhost:5000/resources?grade_id=${gradeId}`)
       .then((res) => {

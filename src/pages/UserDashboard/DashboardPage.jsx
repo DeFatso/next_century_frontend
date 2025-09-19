@@ -9,12 +9,35 @@ import PerformanceSummary from "./components/PerformanceSummary";
 import "./styles/DashboardPage.css";
 
 export default function DashboardPage() {
+  console.log("DashboardPage component rendered");
   const [user, setUser] = useState(null);
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentDate, setCurrentDate] = useState(new Date());
   const navigate = useNavigate();
+
+  const gradeNameToIdMap = {
+    "Grade 1": 1,
+    "Grade 2": 2,
+    "Grade 3": 3,
+    "Grade 4": 4,
+    "Grade 5": 5,
+    "Grade 6": 6,
+    "Grade 7": 7,
+  };
+
+  // Get grade ID from grade name
+  const getGradeIdFromName = (gradeName) => {
+    if (!gradeName) {
+      console.warn("No grade name provided");
+      return null;
+    }
+
+    // Normalize the grade name for case-insensitive matching
+    const normalizedGradeName = gradeName.trim();
+    return gradeNameToIdMap[normalizedGradeName] || null;
+  };
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -31,13 +54,20 @@ export default function DashboardPage() {
         const response = await fetch(
           `http://localhost:5000/auth/dashboard?user_id=${storedUser.id}`
         );
-        
+
         if (!response.ok) {
           throw new Error("Failed to fetch dashboard data");
         }
 
         const data = await response.json();
         setDashboardData(data);
+
+        console.log("=== DASHBOARD DEBUG ===");
+        console.log("Full dashboard data:", data);
+        console.log("User object:", data?.user);
+        console.log("Grade name:", data?.user?.grade_name);
+        console.log("Grade name type:", typeof data?.user?.grade_name);
+        console.log("=======================");
       } catch (err) {
         setError(err.message);
       } finally {
@@ -147,6 +177,15 @@ export default function DashboardPage() {
 
   const calendarDays = generateCalendarDays();
 
+  console.log("=== BEFORE RENDERING ===");
+  console.log("Dashboard data available:", !!dashboardData);
+  console.log("Grade name for mapping:", dashboardData?.user?.grade_name);
+  console.log(
+    "Mapped grade ID:",
+    getGradeIdFromName(dashboardData?.user?.grade_name)
+  );
+  console.log("=========================");
+
   return (
     <div className="dashboard-container">
       {/* Header Section */}
@@ -159,7 +198,7 @@ export default function DashboardPage() {
           <ProfileCard user={dashboardData?.user || user} />
 
           {/* Schedule Section - Updated to show real assignments */}
-          <ScheduleSection 
+          <ScheduleSection
             upcomingAssignments={dashboardData?.upcoming_assignments || []}
             recentActivity={dashboardData?.recent_activity || []}
           />
@@ -168,7 +207,9 @@ export default function DashboardPage() {
         {/* Right Column - Performance Data */}
         <div className="right-column">
           {/* Resources Section */}
-          <ResourcesSection gradeId={dashboardData?.user?.grade_id || user.grade_id} />
+          <ResourcesSection
+            gradeId={getGradeIdFromName(dashboardData?.user?.grade_name)}
+          />
 
           {/* Calendar Section */}
           <CalendarSection
@@ -180,9 +221,7 @@ export default function DashboardPage() {
           />
 
           {/* Performance Summary */}
-          <PerformanceSummary 
-            performanceData={dashboardData}
-          />
+          <PerformanceSummary performanceData={dashboardData} />
         </div>
       </div>
     </div>
