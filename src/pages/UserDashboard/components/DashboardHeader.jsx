@@ -16,7 +16,7 @@ export default function DashboardHeader({ user }) {
       <div className="header-left">
         <h1>Performance Dashboard</h1>
         <p className="welcome-message">
-          Welcome back, {user.full_name || "User"}!
+          Welcome back, {user?.full_name || "User"}!
         </p>
       </div>
       <button onClick={handleLogout} className="logout-btn">

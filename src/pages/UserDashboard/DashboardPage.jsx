@@ -189,7 +189,7 @@ export default function DashboardPage() {
   return (
     <div className="dashboard-container">
       {/* Header Section */}
-      <DashboardHeader user={user} />
+      <DashboardHeader user={dashboardData?.user || user} />
 
       <div className="dashboard-content">
         {/* Left Column - User Profile and Schedule */}
