@@ -5,6 +5,7 @@ import DashboardPage from "./pages/UserDashboard/DashboardPage";
 import LandingPage from "./pages/LandingPage";
 import ApplicationForm from "./components/ApplicationForm";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
+import TeacherDashboard from "./pages/TeacherDashboard/TeacherDashboard";
 import AdminLogin from "./pages/AdminLogin";
 import Signup from "./pages/Signup";
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="*" element={<h2>Page Not Found</h2>} />
+        <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
       </Routes>
     </div>
   );
