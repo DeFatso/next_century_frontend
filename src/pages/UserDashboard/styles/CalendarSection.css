@@ -1,0 +1,120 @@
+/* CalendarSection.css */
+
+.calendar-section {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.calendar-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.calendar-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.calendar-nav .nav-btn,
+.today-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.calendar-nav .nav-btn:hover,
+.today-btn:hover {
+  background-color: #2980b9;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.calendar-weekday {
+  text-align: center;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 5px;
+  color: #7f8c8d;
+}
+
+.calendar-day {
+  text-align: center;
+  padding: 10px 5px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  font-size: 14px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.calendar-day:hover {
+  background-color: #ecf0f1;
+}
+
+.calendar-day.other-month {
+  opacity: 0.5;
+}
+
+.calendar-day.today {
+  background-color: #3498db;
+  color: white;
+  font-weight: bold;
+  border: 2px solid #2980b9;
+}
+
+.today-indicator {
+  width: 6px;
+  height: 6px;
+  background-color: #2ecc71;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.reminder-actions {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.reminder-btn {
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.reminder-btn:hover {
+  background-color: #27ae60;
+}
+
+.reminder-note {
+  font-size: 12px;
+  color: #7f8c8d;
+  margin-top: 8px;
+}
