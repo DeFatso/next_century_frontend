@@ -22,9 +22,10 @@ function App() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="*" element={<h2>Page Not Found</h2>} />
+        {/* Teacher Routes */}
         <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
         <Route path="/teacher-login" element={<TeacherLogin />} />
+        <Route path="*" element={<h2>Page Not Found</h2>} />
       </Routes>
     </div>
   );

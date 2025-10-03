@@ -12,7 +12,7 @@ const TeacherLogin = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://127.0.0.1:5000/auth/teacher/login", {
+      const res = await fetch("http://127.0.0.1:5000/teacher/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -20,9 +20,17 @@ const TeacherLogin = () => {
 
       if (res.ok) {
         const data = await res.json();
-        localStorage.setItem("teacherId", data.teacher_id);
-        localStorage.setItem("token", data.token);
-        navigate("/teacher/dashboard");
+        // Store teacher data properly
+        localStorage.setItem(
+          "teacher",
+          JSON.stringify({
+            id: data.teacher_id,
+            full_name: data.full_name,
+            email: data.email,
+            role: "teacher",
+          })
+        );
+        navigate("/teacher-dashboard"); // Make sure this matches your route
       } else {
         const errData = await res.json();
         setError(errData.error || "Login failed. Try again.");
