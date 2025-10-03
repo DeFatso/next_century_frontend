@@ -8,6 +8,7 @@ import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import TeacherDashboard from "./pages/TeacherDashboard/TeacherDashboard";
 import AdminLogin from "./pages/AdminLogin";
 import Signup from "./pages/Signup";
+import TeacherLogin from "./pages/TeacherDashboard/TeacherLogin.jsx";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="*" element={<h2>Page Not Found</h2>} />
         <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
+        <Route path="/teacher-login" element={<TeacherLogin />} />
       </Routes>
     </div>
   );
